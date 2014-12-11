@@ -286,7 +286,7 @@ main (int argc, char **argv)
 	}
 	if (verbose)
 		printf("open(/dev/mem) ok\n");
-	real_io = mmap(NULL, real_len,
+	real_io = mmap64(NULL, real_len,
 			memread ? PROT_READ:PROT_WRITE,
 			MAP_SHARED, mfd, real_addr);
 	if (real_io == (void *)(-1)) {
