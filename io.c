@@ -52,7 +52,7 @@ usage (void)
 
 
 static void
-memread_memory(unsigned long phys_addr, unsigned char *addr, int len, int iosize)
+memread_memory(unsigned long phys_addr, uint8_t *addr, int len, int iosize)
 {
 	int i;
 
@@ -62,13 +62,13 @@ memread_memory(unsigned long phys_addr, unsigned char *addr, int len, int iosize
 		while (i < 16 && len) {
 			switch(iosize) {
 			case 1:
-				printf(" %02x", *(unsigned char *)addr);
+				printf(" %02x", *(uint8_t *)addr);
 				break;
 			case 2:
-				printf(" %04x", *(unsigned short *)addr);
+				printf(" %04x", *(uint16_t *)addr);
 				break;
 			case 4:
-				printf(" %08lx", *(unsigned long *)addr);
+				printf(" %08x", *(uint32_t *)addr);
 				break;
 			}
 			i += iosize;
@@ -82,26 +82,26 @@ memread_memory(unsigned long phys_addr, unsigned char *addr, int len, int iosize
 
 
 static void
-write_memory(unsigned long phys_addr, unsigned char *addr, int len, int iosize, unsigned long value)
+write_memory(uint8_t *addr, int len, int iosize, unsigned long value)
 {
 	switch(iosize) {
 	case 1:
 		while (len) {
-			*(unsigned char *)addr = value;
+			*(uint8_t *)addr = value;
 			len -= iosize;
 			addr += iosize;
 		}
 		break;
 	case 2:
 		while (len) {
-			*(unsigned short *)addr = value;
+			*(uint16_t *)addr = value;
 			len -= iosize;
 			addr += iosize;
 		}
 		break;
 	case 4:
 		while (len) {
-			*(unsigned long *)addr = value;
+			*(uint32_t *)addr = value;
 			len -= iosize;
 			addr += iosize;
 		}
@@ -114,7 +114,7 @@ int
 main (int argc, char **argv)
 {
 	int mfd, ffd = 0, req_len = 0, opt;
-	unsigned char *real_io;
+	uint8_t *real_io;
 	unsigned long real_len, real_addr, req_addr, req_value = 0, offset;
 	char *endptr;
 	int memread = TRUE;
@@ -337,7 +337,7 @@ main (int argc, char **argv)
 	else if (memread)
 		memread_memory(req_addr, real_io + offset, req_len, iosize);
 	else
-		write_memory(req_addr, real_io + offset, req_len, iosize, req_value);
+		write_memory(real_io + offset, req_len, iosize, req_value);
 
 	if (filename)
 		close(ffd);
