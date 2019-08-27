@@ -1,7 +1,7 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-ifeq (1,$(strip $(shell expr $(PLATFORM_VERSION) \>= 5.0)))
+ifeq (1,$(strip $(shell expr $(PLATFORM_SDK_VERSION) \>= 21)))
 LOCAL_CFLAGS += -DMMAP64
 endif
 
